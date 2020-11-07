@@ -1,0 +1,40 @@
+{
+  "name": "lit-directive-assert",
+  "version": "0.2.0",
+  "description": "Lit HTML directive for assertion value and render some options",
+  "main": "./lit-directive-assert.js",
+  "module": "./lit-directive-assert.js",
+  "type": "module",
+  "unpkg": "min.js",
+  "scripts": {},
+  "author": {
+    "email": "jimmy.collazos@gmail.com",
+    "name": "Jimmy Collazos"
+  },
+  "license": "GPL-3.0",
+  "dependencies": {
+    "lit-html": "^1.3.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "rollup": "^2.32.1",
+    "rollup-plugin-terser": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jimmy-collazos/lit-directive-assert.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jimmy-collazos/lit-directive-assert/issues"
+  },
+  "homepage": "https://github.com/jimmy-collazos/lit-directive-assert#README",
+  "keywords": [
+    "lit-html",
+    "lit",
+    "webcomponents",
+    "customelements",
+    "lit-element",
+    "assert",
+    "fp"
+  ]
+}

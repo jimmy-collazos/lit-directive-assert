@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+</head>
+<body>
+  <div id="container"></div>
+  <script type="module">
+    import {render, html} from '../node_modules/lit-html/lit-html.js'
+    import {assertDirective, assertAsyncDirective} from '../lit-directive-assert.js';
+
+    const oAssert = assertDirective('ok', 'ko');
+    const oAssertAsync = assertAsyncDirective('pending...', 'ok', 'ko');
+    const assertEventPart = assertDirective(_ => _ => console.log('pending...'), _ => _ => console.log('ok'), _ => _ => console.log('ko'));
+    const assertAsyncEventPart = assertAsyncDirective(_ => ev => console.log('pending...', ev, _), _ => ev => console.log('ok', ev), _ => ev => console.log('ko', ev));
+
+    const pendingPromise = new Promise((resolve) => {
+      setTimeout(_ => resolve(), 9000);
+    })
+    render(html`
+      <h1>Assert</h1>
+
+      <h2>Node Part</h2>
+      <ul>
+        <li> ok === ${oAssert(true)}</li>
+        <li> ko === ${oAssert(false)}</li>
+        <li> async: ok === ${oAssertAsync(Promise.resolve())}</li>
+        <li> async: ko === ${oAssertAsync(Promise.reject())}</li>
+        <li> async: pending... === ${oAssertAsync(pendingPromise)}</li>
+      </ul>
+      
+      <h2>Property Part</h2>
+      <ul>
+        <li> <span .title=${oAssert(true)}>ok</span></li>
+        <li> <span .title=${oAssert(false)}>ok</span></li>
+        <li> <span .title=${oAssertAsync(Promise.resolve())}>ok</span></li>
+        <li> <span .title=${oAssertAsync(Promise.reject())}>ok</span></li>
+        <li> <span .title=${oAssertAsync(pendingPromise)}>ok</span></li>
+      </ul>
+
+      <h2>Attribute Part</h2>
+      <ul>
+        <li>ok == <input type="text" value="${oAssert(true)}" /></li>
+        <li>ko == <input type="text" value="${oAssert(false)}" /></li>
+        <li> async: ok === <input type="text" value="${oAssertAsync(Promise.resolve())}" /></li>
+        <li> async: ko === <input type="text" value="${oAssertAsync(Promise.reject())}" /></li>
+        <li> async: pending... === <input type="text" value="${oAssertAsync(pendingPromise)}" /></li>
+      </ul>
+
+      <h2>Event Part</h2>
+      <ul>
+        <li> <span @click=${assertEventPart(true)}>ok</span></li>
+        <li> <span @click=${assertEventPart(false)}>ko</span></li>
+        <li> <span @click=${assertAsyncEventPart(Promise.resolve())}>ko</span></li>
+        <li> <span @click=${assertAsyncEventPart(Promise.reject())}>ko</span></li>
+        <li> <span @click=${assertAsyncEventPart(pendingPromise)}>pending...</span></li>
+      </ul>`, window.container);
+
+  </script>
+</body>
+</html>
